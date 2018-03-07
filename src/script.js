@@ -65,7 +65,7 @@ function dragStart() {
     var params = {
         currentMargin: null,
         maxMargin: currentWidth * slider.getElementsByTagName('img').length - currentWidth,
-        imgLength: slider.getElementsByTagName('img').length,
+        imgLength: slider.getElementsByTagName('img').length
     };
 
     function currentMarginFn() {
@@ -92,7 +92,7 @@ function dragStart() {
 
         document.removeEventListener('mousemove', mouseMove);
 
-        if (endX < startX) {
+        if (endX <= startX) {
             //выясним напрваление разницей точки в которой был mousedown и mouseup
             //если точка старта по X например больше точки конца, значить танут влево
             //выясняем сколько уже протянуто, и сколько осталось
