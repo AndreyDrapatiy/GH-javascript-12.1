@@ -1,10 +1,10 @@
 import './style.scss'
 
-var currentWidth = document.getElementsByClassName('carousel')[0].offsetWidth;// текущий размер одного слайдера в браузере
-var slider; //тут хранится текущий слайдер над которым водят указателем
+var currentWidth = document.getElementsByClassName('carousel')[0].offsetWidth;// the current size of one slider in the browser
+var slider; // here the current slider is stored over which is led by a pointer
 
 document.addEventListener('mousedown', function (event) {
-   var target = event.target; // где был клик?
+   var target = event.target; // where was the click?
 
     if (target.tagName === 'IMG') {
         dragStart()
@@ -17,7 +17,8 @@ document.addEventListener('mousedown', function (event) {
 for (var currentSlider = document.getElementsByClassName('carousel'), j = 0, lj = currentSlider.length; j < lj; j++) {
 
     for (var i = 0; i < currentSlider[j].getElementsByTagName('img').length; i++) {
-        //добывим индикаторы к слайдерам в от количества картинок в них
+        
+	// generate indicators to the sliders in the number of pictures in them
         currentSlider[j].getElementsByTagName('ul')[0].innerHTML += '<li class="indicator" id="' + i + '"><a href="#"></a></li>';
         currentSlider[j].getElementsByTagName('li')[0].classList.add('active');
     }
@@ -31,10 +32,10 @@ for (var image = document.getElementsByTagName('img'), j = 0, lj = image.length;
 }
 
 function moveToSlide(target) {
-    //перемещаем к слайду по индикатору
+    
+	// move to the slide by the indicator
     target.parentNode.parentNode.getElementsByClassName('content')[0].style.marginLeft = -(target.id * currentWidth) + 'px';
-    //после перемещения снимаем active со всех индикаторов и присваивам на новый
-    for (var x = target.parentNode.getElementsByTagName('LI'), j = 0, lj = x.length; j < lj; j++) {
+	// after moving, we remove active from all indicators and assignments to a new one    for (var x = target.parentNode.getElementsByTagName('LI'), j = 0, lj = x.length; j < lj; j++) {
         x[j].classList.remove('active');
     }
     target.classList.add('active');
@@ -42,13 +43,12 @@ function moveToSlide(target) {
 
 function setIndicator() {
 
-    //индикатор становится активным так:
-    //текущий отступ контейнера делим на ширину одного слайда
-    //получаем число которое будет соответсвовать номеру индикатора
-    //например  отступ контейнера 0/щирину то номер индикатора 0
-    //если отступ -675px/ширина(675) = 1(значить слайдер прокрутитили на один слайд)
-    //индикатору с индексом 1 присвоен класс active
-
+    // the indicator becomes active like this:
+    // the current indent of the container is divided by the width of one slide
+    // get the number that will match the number of the indicator
+    // for example, the indent of the container 0 / the shield, then the number of the indicator 0
+    // if indent is -675px / width (675) = 1 (means the slider is scrolled to one slide)
+    // Indicator with index 1 assigned active class
 
     var index = Math.abs(parseInt(getComputedStyle(slider).marginLeft));
 
@@ -86,17 +86,17 @@ function dragStart() {
     }
 
     function moveEnd() {
-        slider.classList.add('transition');// добавим transition после того как сладйр отпустили, раньше нельзя, будет не корректное перетаскивание мышкой
+        slider.classList.add('transition');// add the transition after the sweet is released, it is impossible earlier, there will be no correct dragging by the mouse
 
         var endX = event.clientX;
 
         document.removeEventListener('mousemove', mouseMove);
 
         if (endX <= startX) {
-            //выясним напрваление разницей точки в которой был mousedown и mouseup
-            //если точка старта по X например больше точки конца, значить танут влево
-            //выясняем сколько уже протянуто, и сколько осталось
-            //остаток присваиваем в свойство marginLeft
+            // find out the direction of the difference in the point at which was mousedown and mouseup
+            // if the start point in X is greater than the end point, for example, it will be left
+            // find out how much is stretched, and how much is left
+            // assign the remainder to the marginLeft property
             if (params.currentMargin !== -params.maxMargin) {
                 var left = currentWidth - params.currentMargin;
                 slider.style.marginLeft = -left + 'px';
@@ -114,12 +114,12 @@ function dragStart() {
                 slider.style.marginLeft = -params.maxMargin + 'px';
             }
         }
-        currentMarginFn(); //обновляем значение margin
-        setTimeout(setIndicator, 250);// вызов присвоения нового индикатора должен быть слегка позже, что бы transition успел закончить
+        currentMarginFn(); // update margin value
+        setTimeout(setIndicator, 250);// call the assignment of the new indicator should be a little later, that would have finished the transition
         document.removeEventListener('mouseup', moveEnd);
     }
-    slider.classList.remove('transition'); //нужно снова удалить для красивого перетасивание указателем
-    currentMarginFn();//обновляем значение margin
+    slider.classList.remove('transition'); // need to remove again for a beautiful pointer shuffle
+    currentMarginFn();// update margin value
 }
 
 
